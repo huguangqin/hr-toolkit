@@ -24,6 +24,7 @@
 """
 import os
 import re
+import sys
 import glob
 import json
 import requests
@@ -32,7 +33,9 @@ BASE = os.path.dirname(os.path.abspath(__file__))
 APPID = os.environ.get("WX_APPID")
 APPSECRET = os.environ.get("WX_APPSECRET")
 
-ARTICLE_TITLE = "HR 面试总靠感觉？一张表搞定"
+# 默认文章（不传参数时，向后兼容旧用法）
+DEFAULT_TITLE = "HR 面试总靠感觉？一张表搞定"
+DEFAULT_DIGEST = "一张结构化面试评估表，把'凭感觉'变成'有证据'。完整模板在 GitHub：hr-toolkit。"
 
 
 def _find(ext):
@@ -42,7 +45,19 @@ def _find(ext):
     return files[0]
 
 
-HTML_PATH = _find(".html")
+# 用法（任选）：
+#   python push_to_mp.py
+#   python push_to_mp.py <目标.html> [标题] [摘要]
+# 传了 .html 路径就用它；否则自动取目录下第一个 .html。
+if len(sys.argv) > 1 and sys.argv[1].endswith(".html"):
+    HTML_PATH = sys.argv[1]
+    ARTICLE_TITLE = sys.argv[2] if len(sys.argv) > 2 else DEFAULT_TITLE
+    DIGEST = sys.argv[3] if len(sys.argv) > 3 else DEFAULT_DIGEST
+else:
+    HTML_PATH = _find(".html")
+    ARTICLE_TITLE = DEFAULT_TITLE
+    DIGEST = DEFAULT_DIGEST
+
 IMG_PATH = _find(".png")
 
 
@@ -125,7 +140,7 @@ def main():
     article = {
         "title": ARTICLE_TITLE,
         "author": "大勤",
-        "digest": "一张结构化面试评估表，把'凭感觉'变成'有证据'。完整模板在 GitHub：hr-toolkit。",
+        "digest": DIGEST,
         "content": content,
         "thumb_media_id": media_id,
         "need_open_comment": 1,
