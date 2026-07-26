@@ -12,10 +12,13 @@ r = requests.get(
     params={"grant_type": "client_credential", "appid": APPID, "secret": APPSECRET},
     timeout=10,
 )
+r.encoding = "utf-8"
 tok = r.json()["access_token"]
 
 url = "https://api.weixin.qq.com/cgi-bin/draft/batchget?access_token=%s" % tok
-resp = requests.post(url, json={"offset": 0, "count": 5, "no_content": 1}, timeout=30).json()
+resp = requests.post(url, json={"offset": 0, "count": 5, "no_content": 1}, timeout=30)
+resp.encoding = "utf-8"
+resp = resp.json()
 
 print("草稿总数 total_count:", resp.get("total_count"))
 for a in resp.get("item", []):

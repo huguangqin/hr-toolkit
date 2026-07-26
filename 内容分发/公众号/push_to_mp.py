@@ -1,30 +1,34 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-自动推送公众号草稿：本地精编 HTML + 题图  ->  公众号草稿箱
+自动推送/更新公众号草稿：本地精编 HTML + 题图  ->  公众号草稿箱
 
-这是"自动推送"的实现路径（对应微信公众平台开放接口）：
-  1. 用 appid + appsecret 取 access_token
-  2. 上传题图为永久素材，拿 media_id / url
-  3. 把 HTML 里的本地题图路径替换为微信 url，并保留 <style> 以保证排版
-  4. 调用 drafts/add 创建草稿（仅入草稿箱，不群发）
+修复点（乱码根因）：
+  之前用 requests.post(..., json=...) 默认把中文转成 \\uXXXX 转义发出，
+  公众号后台解析容易乱码。改为 json.dumps(ensure_ascii=False) 直接以 UTF-8
+  字节发送，并显式带 Content-Type: application/json; charset=utf-8。
+
+幂等更新：
+  先按 title 在草稿箱查找已有草稿，找到则 drafts/update 原地更新（修乱码 /
+  改稿都不会堆重复草稿）；找不到才 drafts/add 新建。仅入草稿箱，不群发。
 
 使用前（凭据不要写进代码或记忆，用环境变量临时传入）：
   pip install requests
   $env:WX_APPID="你的appid"
   $env:WX_APPSECRET="你的appsecret"
   python push_to_mp.py
-
-依赖：Python 3，requests。Windows PowerShell 设置环境变量用 $env:。
 """
 import os
 import re
 import glob
+import json
 import requests
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 APPID = os.environ.get("WX_APPID")
 APPSECRET = os.environ.get("WX_APPSECRET")
+
+ARTICLE_TITLE = "HR 面试总靠感觉？一张表搞定"
 
 
 def _find(ext):
@@ -38,6 +42,16 @@ HTML_PATH = _find(".html")
 IMG_PATH = _find(".png")
 
 
+def post_json(url, payload):
+    """以 UTF-8 字节发送 JSON（ensure_ascii=False），根治中文乱码。"""
+    body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
+    headers = {"Content-Type": "application/json; charset=utf-8"}
+    r = requests.post(url, data=body, headers=headers, timeout=30)
+    r.raise_for_status()
+    r.encoding = "utf-8"  # 关键：微信响应常不带 charset，强制 UTF-8 解码，避免被当 Latin-1 误判乱码
+    return r.json()
+
+
 def get_token():
     r = requests.get(
         "https://api.weixin.qq.com/cgi-bin/token",
@@ -45,6 +59,7 @@ def get_token():
         timeout=10,
     )
     r.raise_for_status()
+    r.encoding = "utf-8"
     data = r.json()
     if "access_token" not in data:
         raise RuntimeError("获取 access_token 失败: %s" % data)
@@ -56,6 +71,7 @@ def upload_image(token):
     with open(IMG_PATH, "rb") as f:
         r = requests.post(url, files={"media": f}, timeout=30)
     r.raise_for_status()
+    r.encoding = "utf-8"
     data = r.json()
     if "media_id" not in data:
         raise RuntimeError("上传图片失败: %s" % data)
@@ -77,11 +93,24 @@ def build_content(img_url):
     return style_block + inner
 
 
+def find_existing_draft(token, title):
+    url = "https://api.weixin.qq.com/cgi-bin/draft/batchget?access_token=%s" % token
+    resp = post_json(url, {"offset": 0, "count": 20, "no_content": 1})
+    for item in resp.get("item", []):
+        art = item["content"]["news_item"][0]
+        if art.get("title") == title:
+            return item.get("media_id")
+    return None
+
+
 def add_draft(token, article):
     url = "https://api.weixin.qq.com/cgi-bin/draft/add?access_token=%s" % token
-    r = requests.post(url, json={"articles": [article]}, timeout=30)
-    r.raise_for_status()
-    return r.json()
+    return post_json(url, {"articles": [article]})
+
+
+def update_draft(token, media_id, article):
+    url = "https://api.weixin.qq.com/cgi-bin/draft/update?access_token=%s" % token
+    return post_json(url, {"media_id": media_id, "index": 0, "articles": [article]})
 
 
 def main():
@@ -91,7 +120,7 @@ def main():
     media_id, img_url = upload_image(token)
     content = build_content(img_url)
     article = {
-        "title": "HR 面试总靠感觉？一张表搞定",
+        "title": ARTICLE_TITLE,
         "author": "大勤",
         "digest": "一张结构化面试评估表，把'凭感觉'变成'有证据'。完整模板在 GitHub：hr-toolkit。",
         "content": content,
@@ -99,10 +128,17 @@ def main():
         "need_open_comment": 1,
         "only_fans_can_comment": 0,
     }
-    res = add_draft(token, article)
-    print("草稿创建结果:", res)
-    if "media_id" in res:
-        print("[OK] 已写入公众号草稿箱，去后台「草稿箱」确认即可（不会自动群发）。")
+    existing = find_existing_draft(token, ARTICLE_TITLE)
+    if existing:
+        res = update_draft(token, existing, article)
+        print("已原地更新草稿 media_id=%s :" % existing, res)
+        if res.get("errcode", 0) == 0:
+            print("[OK] 乱码草稿已原地修正，去后台「草稿箱」刷新确认即可（不会自动群发）。")
+    else:
+        res = add_draft(token, article)
+        print("已新建草稿:", res)
+        if "media_id" in res:
+            print("[OK] 已写入公众号草稿箱，去后台「草稿箱」确认即可（不会自动群发）。")
 
 
 if __name__ == "__main__":
