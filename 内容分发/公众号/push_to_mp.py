@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-自动推送/更新公众号草稿：本地精编 HTML + 题图  ->  公众号草稿箱
+自动推送/更新公众号草稿：本地精编 HTML（全内联样式） + 列表封面  ->  公众号草稿箱
 
-修复点（乱码根因）：
-  之前用 requests.post(..., json=...) 默认把中文转成 \\uXXXX 转义发出，
-  公众号后台解析容易乱码。改为 json.dumps(ensure_ascii=False) 直接以 UTF-8
-  字节发送，并显式带 Content-Type: application/json; charset=utf-8。
+关键约束：
+  1) 排版：微信草稿接口会【丢弃 <style> 块】，只认元素上的 style="..." 内联样式。
+     因此 HTML 里所有样式必须写成内联，否则只剩 <b>/<strong> 加粗能生效。
+  2) 乱码：请求体用 json.dumps(ensure_ascii=False) 以 UTF-8 字节发送，并显式带
+     Content-Type: application/json; charset=utf-8；读取响应前强制 r.encoding='utf-8'
+     （微信响应常不带 charset，requests 会误按 Latin-1 解码成假乱码）。
+  3) 封面：草稿接口强制要求 thumb_media_id（列表封面），正文已不配图；若要发布时
+     正文顶部也不显示封面，需在编辑器里手动勾选「不显示封面」。
 
 幂等更新：
   先按 title 在草稿箱查找已有草稿，找到则 drafts/update 原地更新（修乱码 /
@@ -78,19 +82,17 @@ def upload_image(token):
     return data["media_id"], data.get("url", "")
 
 
-def build_content(img_url):
+def build_content():
+    """读取 HTML 正文。样式已全部内联（微信草稿接口会丢弃 <style> 块，
+    只认 element 上的 style="..."），所以直接返回 body 内容即可。"""
     html = open(HTML_PATH, encoding="utf-8").read()
-    style = re.search(r"<style>(.*?)</style>", html, re.S)
     body = re.search(r"<body[^>]*>(.*?)</body>", html, re.S)
     if not body:
         raise RuntimeError("HTML 结构异常，找不到 body")
     inner = body.group(1)
-    # 题图本地路径 -> 微信 url
-    inner = re.sub(r'src="[^"]*Clean_modern_flat_illustration[^"]*"', 'src="%s"' % img_url, inner)
     # 去掉内部作者备注（发布前清理）
     inner = re.sub(r'<p class="footnote">.*?</p>', "", inner, flags=re.S)
-    style_block = "<style>%s</style>" % style.group(1) if style else ""
-    return style_block + inner
+    return inner
 
 
 def find_existing_draft(token, title):
@@ -117,8 +119,9 @@ def main():
     if not APPID or not APPSECRET:
         raise SystemExit("缺少环境变量 WX_APPID / WX_APPSECRET，请先设置后再运行。")
     token = get_token()
-    media_id, img_url = upload_image(token)
-    content = build_content(img_url)
+    # 上传列表封面图（微信草稿接口强制要求 thumb_media_id）；正文已不配图。
+    media_id, _ = upload_image(token)
+    content = build_content()
     article = {
         "title": ARTICLE_TITLE,
         "author": "大勤",
