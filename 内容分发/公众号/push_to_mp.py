@@ -58,7 +58,24 @@ else:
     ARTICLE_TITLE = DEFAULT_TITLE
     DIGEST = DEFAULT_DIGEST
 
-IMG_PATH = _find(".png")
+def _find_cover():
+    """选封面图：优先匹配当前文章对应的封面（文件名含 html 词干或『封面』字样），
+    否则回退到目录里第一个 png。避免把旧文章的配图错配到新文章。"""
+    pngs = glob.glob(os.path.join(BASE, "*.png"))
+    if not pngs:
+        raise FileNotFoundError("未找到封面 png 文件")
+    if HTML_PATH.endswith(".html"):
+        stem = os.path.splitext(os.path.basename(HTML_PATH))[0]
+        cand = [p for p in pngs if stem in os.path.basename(p)]
+        if cand:
+            return cand[0]
+        cand = [p for p in pngs if "封面" in os.path.basename(p)]
+        if cand:
+            return cand[0]
+    return pngs[0]
+
+
+IMG_PATH = _find_cover()
 
 
 def post_json(url, payload):
