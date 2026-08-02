@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>一张表填错，个税社保全乱？信息登记，从源头防错</title>
+</head>
+<body>
+<div style="background-color:#ffffff;padding:0 16px 36px;font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;color:#2b2b2b;font-size:16px;line-height:1.85;">
+
+  <div style="color:#be123c;font-size:13px;font-weight:bold;letter-spacing:2px;margin-top:18px;">入离职与社保 · 方法论解读</div>
+  <h1 style="font-size:24px;line-height:1.5;margin:24px 0 6px;font-weight:bold;">一张表填错，个税社保全乱？信息登记，从源头防错</h1>
+
+  <div style="background-color:#fff1f2;border-left:4px solid #be123c;padding:14px 18px;margin:18px 0 26px;color:#374151;font-size:15.5px;border-radius:0 10px 10px 0;">
+    某公司用共享Excel存全员身份证号和银行卡，被离职员工截图外发，公司因未采取技术措施保护个人信息被监管约谈。员工信息不是一张便利表，而是受保护的数据资产。
+  </div>
+
+  <h2 style="font-size:20px;margin:34px 0 12px;padding-left:12px;border-left:5px solid #be123c;font-weight:bold;">一、本质分析：病根不在表面</h2>
+  <p style='margin:12px 0;'>① 把信息当普通表格，存在公共盘明文，违反个人信息保护的最小必要与加密要求。</p><p style='margin:12px 0;'>② 员工自填不核验，身份证号错一位，社保个税全错，发薪也可能打错卡。</p><p style='margin:12px 0;'>③ 缺签字确认，信息争议时公司无据，员工说填错也难举证。</p>
+
+  <h2 style="font-size:20px;margin:34px 0 12px;padding-left:12px;border-left:5px solid #be123c;font-weight:bold;">二、理论基础</h2>
+  <p style='margin:12px 0;'>员工信息兼具人事档案与个人信息二重属性。民法典与个人信息保护法要求处理个人信息应有合法目的、最小必要、采取加密措施，且敏感信息泄露需承担法律责任。HR 是信息保护的第一道防线。</p><table style='width:100%;border-collapse:collapse;margin:18px 0;font-size:14px;'><thead><tr><th style='border:1px solid #fecdd3;padding:9px 10px;text-align:left;background-color:#be123c;color:#fff;font-weight:bold;'>信息项</th><th style='border:1px solid #fecdd3;padding:9px 10px;text-align:left;background-color:#be123c;color:#fff;font-weight:bold;'>用途</th><th style='border:1px solid #fecdd3;padding:9px 10px;text-align:left;background-color:#be123c;color:#fff;font-weight:bold;'>保护要求</th></tr></thead><tbody><tr><td style='border:1px solid #fecdd3;padding:9px 10px;font-weight:bold;color:#9f1239;'>身份证号</td><td style='border:1px solid #fecdd3;padding:9px 10px;'>合同/个税/社保</td><td style='border:1px solid #fecdd3;padding:9px 10px;'>加密存储</td></tr><tr><td style='border:1px solid #fecdd3;padding:9px 10px;font-weight:bold;color:#9f1239;'>银行卡号</td><td style='border:1px solid #fecdd3;padding:9px 10px;'>发薪</td><td style='border:1px solid #fecdd3;padding:9px 10px;'>最小可见</td></tr><tr><td style='border:1px solid #fecdd3;padding:9px 10px;font-weight:bold;color:#9f1239;'>健康/家庭</td><td style='border:1px solid #fecdd3;padding:9px 10px;'>一般禁收</td><td style='border:1px solid #fecdd3;padding:9px 10px;'>非必要不收集</td></tr></tbody></table>
+
+  <h2 style="font-size:20px;margin:34px 0 12px;padding-left:12px;border-left:5px solid #be123c;font-weight:bold;">三、工具表：员工信息登记表（GitHub 可抄）</h2>
+  <div style="background-color:#fff7f8;border:1px solid #fecdd3;border-radius:12px;padding:14px 18px;margin:16px 0;font-size:14px;">
+    <p style='margin:0 0 6px;'><b style='color:#9f1239;'>1) 预填减负</b> 报到前发电子表，现场只做核验。</p><p style='margin:0 0 6px;'><b style='color:#9f1239;'>2) 原件核验</b> 身份证学历当场核，错填当场改。</p><p style='margin:0 0 6px;'><b style='color:#9f1239;'>3) 加密归档</b> 敏感字段加密，权限分级管控。</p><p style='margin:0 0 6px;'><b style='color:#9f1239;'>4) 签字确认</b> 员工签信息真实，留法律证据。</p><p style='margin:0 0 6px;'><b style='color:#9f1239;'>5) 系统同步</b> 入HR系统自动带出，免重复录入。</p>
+  </div>
+
+  <h2 style="font-size:20px;margin:34px 0 12px;padding-left:12px;border-left:5px solid #be123c;font-weight:bold;">四、实操指导：五步跑通</h2>
+  <p style='margin:12px 0;'>① 发预填表：报到前1天发，减少现场等待。</p><p style='margin:12px 0;'>② 现场核验：原件比对，重点查身份证号。</p><p style='margin:12px 0;'>③ 加密录入：系统加密字段，Excel 不得存明文。</p><p style='margin:12px 0;'>④ 签字确认：纸质加电子双签确认。</p><p style='margin:12px 0;'>⑤ 权限管控：HR 专岗可见，他人按需授权。</p>
+  <p style="margin:12px 0;background-color:#fff1f2;padding:10px 14px;border-radius:8px;color:#9f1239;"><b>常见坑：</b>❌ 明文存Excel，泄露被罚 ❌ 不核验，错号致社保个税错 ❌ 漏紧急联系人，突发无对接</p>
+
+  <h2 style='font-size:20px;margin:34px 0 12px;padding-left:12px;border-left:5px solid #be123c;font-weight:bold;'>五、常见误区：别踩这些坑</h2>
+<p style='margin:12px 0;'>常见误区：HR 习惯把员工信息丢进共享表格方便查，殊不知身份证、银行卡、家庭情况都属于敏感个人信息，明文共享一旦外泄就是合规事故。正确做法是用加密的 HR 系统、按岗授权、只收集必要项，把方便让位给安全。</p>
+
+  <h2 style='font-size:20px;margin:34px 0 12px;padding-left:12px;border-left:5px solid #be123c;font-weight:bold;'>六、工具表全文（可直接复制）</h2>
+<div style='background-color:#f8fafc;border:1px solid #e5e7eb;border-radius:12px;padding:14px 18px;margin:16px 0;font-size:13.5px;white-space:pre-wrap;line-height:1.7;font-family:Consolas,monospace;'>【员工信息登记表】
+姓名：____ 性别：____ 身份证号：____ 手机号：____
+紧急联系人：____ 关系：____ 电话：____
+最高学历：____ 毕业院校：____ 专业：____
+银行卡(开户行)：____
+社保电脑号：____ 公积金账号：____
+本人确认以上信息真实准确：签字____ 日期____</div>
+
+  <h2 style='font-size:20px;margin:34px 0 12px;padding-left:12px;border-left:5px solid #be123c;font-weight:bold;'>七、落地三步卡（照着做，少返工）</h2>
+<div style='background-color:#f8fafc;border:1px solid #e5e7eb;border-radius:12px;padding:14px 18px;margin:16px 0;font-size:14px;'>
+<p style='margin:0 0 8px;'><b style='color:#be123c;'>适用场景：</b>收集新员工身份信息、紧急联系人、教育履历、银行账号，建合规人事档案，支撑合同、社保、个税与紧急联络。</p>
+<p style='margin:8px 0 4px;font-weight:bold;color:#be123c;'>操作顺序：</p>
+<p style='margin:6px 0;'>1. 报到前发电子表预填，减少现场等待。</p><p style='margin:6px 0;'>2. 报到核验原件，现场更正错填。</p><p style='margin:6px 0;'>3. 录入 HR 系统，敏感字段加密。</p><p style='margin:6px 0;'>4. 员工签字确认信息真实。</p><p style='margin:6px 0;'>5. 按最小可见原则设置查询权限。</p>
+<p style='margin:10px 0 4px;font-weight:bold;color:#be123c;'>红线提醒：</p>
+<p style='margin:6px 0;'>⚠ 身份证号明文存共享Excel，泄露被监管处罚。</p><p style='margin:6px 0;'>⚠ 信息错填不核验，导致个税社保全部出错。</p><p style='margin:6px 0;'>⚠ 漏紧急联系人，突发状况无人对接。</p>
+<p style='margin:12px 0 0;background-color:#fff1f2;padding:10px 14px;border-radius:8px;color:#9f1239;'>记住一句话：某公司用共享Excel存全员身份证号和银行卡，被离职员工截图外发，公司因未采取技术措施保护个人信息被监管约谈。员工信息不是一张便利表，而是受保护的数据资产。</p>
+<p style='margin:10px 0 0;color:#374151;'>配套工具：入职手续办理清单、社保新参统增员表（同模块其他表可组合使用）</p>
+</div>
+
+  <div style="margin:32px 0 0;padding:20px 18px;background-color:#be123c;color:#fff1f2;border-radius:14px;">
+    <p style="margin:0 0 8px;font-weight:bold;font-size:16px;">📎 完整模板在这</p>
+    <p style="margin:0;word-break:break-all;">https://github.com/huguangqin/hr-toolkit</p>
+    <p style="margin:10px 0 0;font-size:14px;">《员工信息登记表》已在“入离职与社保”模块上线，含可填模板与常见坑说明，直接复制可用。GitHub 搜 "hr-toolkit"。</p>
+  </div>
+
+  <p style="text-align:center;color:#6b7280;font-size:14px;margin:26px 0 0;">— 转给做入离职与社保的同事，少走弯路 👋 —</p>
+
+</div>
+</body>
+</html>
