@@ -6,6 +6,19 @@ description: |
   适用人群：HRBP、HR专员、前台/后台管理者。
   触发场景：(1)员工违纪处理与沟通 (2)解除劳动合同沟通 (3)协商解除/劝退谈话 (4)绩效不胜任处理 (5)调岗调薪沟通 (6)员工投诉/申诉处理 (7)劳动仲裁应对准备 (8)员工关系风险预防。
   关键词：ER、员工关系、违纪、解除、辞退、劝退、沟通、谈话、PIP、绩效改进、调岗、调薪、劳动仲裁、合规、红黄线、处罚、N+1、2N、经济补偿、赔偿金。
+  不用于：具体案件的合法性终局判断、诉讼代理、法律意见书出具——本 Skill 提供流程与话术框架，不替代专业法律意见。
+version: 1
+author: huguangqin
+license: MIT
+tags: [employee-relations, er, termination, pip, hr, compliance, communication]
+metadata:
+  hermes:
+    tags: [employee-relations, er, termination, pip, hr, compliance, communication]
+    related_skills: [er-case-analysis, er-legal-monitor, er-risk-assessment]
+  source:
+    origin: 贝壳整装事业线定制版（员工关系案件沟通指引）
+    migrated_from: github.com/huguangqin/ER-case-communication.skill
+    note: 提供操作流程与沟通框架，不构成法律意见；具体案件的合法性判断、证据充分性认定与各地裁判口径差异，请以专业法律意见和当地司法实践为准。
 ---
 
 # ER 案件沟通指引
