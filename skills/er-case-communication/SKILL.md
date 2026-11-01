@@ -16,14 +16,14 @@ metadata:
     tags: [employee-relations, er, termination, pip, hr, compliance, communication]
     related_skills: [er-case-analysis, er-legal-monitor, er-risk-assessment]
   source:
-    origin: 贝壳整装事业线定制版（员工关系案件沟通指引）
+    origin: 企业内部定制版（员工关系案件沟通指引，初版基于某业务线实践梳理）
     migrated_from: github.com/huguangqin/ER-case-communication.skill
     note: 提供操作流程与沟通框架，不构成法律意见；具体案件的合法性判断、证据充分性认定与各地裁判口径差异，请以专业法律意见和当地司法实践为准。
 ---
 
 # ER 案件沟通指引
 
-> 本 Skill 为贝壳整装事业线定制，适用于 HRBP、HR 专员及各级管理者处理员工关系场景。
+> 本 Skill 为通用版（初版基于某业务线定制实践），适用于 HRBP、HR 专员及各级管理者处理员工关系场景。
 
 ## 核心原则
 
@@ -99,7 +99,7 @@ metadata:
 
 ## 败诉风险预警
 
-基于整装事业线24-26年实际败诉案例，以下模式**高风险**：
+基于某业务线 2024-2026 年实际败诉案例，以下模式**高风险**：
 
 | 风险模式 | 占比 | 典型表现 | 预防措施 |
 |---------|------|---------|---------|
