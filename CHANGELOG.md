@@ -1,5 +1,11 @@
 # 更新日志
 
+## v0.7.1 - 2026-11-01
+- Skill 归位：将原独立仓库 `ER-case-communication.skill` 的内容并入 `skills/er-case-communication/`，与薪酬 Skill 统一管理（原仓库此前以 zip 形式存放 `.skill` 包，本次解压为可直接安装的目录结构）。
+  - 内容：SKILL.md + references/（法律依据、案件评估框架、沟通话术模板、五大场景流程）+ 新增 README 与 LICENSE(MIT)。
+  - 原 Skill 内容未作改动，仅补充目录说明与合规免责声明。
+- README 索引新增该 Skill 条目。
+
 ## v0.7.0 - 2026-11-01
 - 新增首个 AI Skill：`skills/compensation-design-ongtao/`，把薪酬模块从"给人看的表"延伸到"给 AI 用的可执行方法论"。
   - 方法论蒸馏自翁涛《薪酬总监修炼笔记——我在世界500强公司管薪酬》（人民邮电出版社，2019），用 cangjie-skill 走 RIA-TV++ 流程萃取，并经京东读书正版实读第 4.3 节（薪酬结构分析）与第 5.3 节（调薪矩阵）逐页校准。
