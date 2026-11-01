@@ -1,0 +1,4 @@
+﻿case_id,evidence_grade,procedure_compliant,protected_period,employee_lawyered,local_tendency,action_type,tenure_years,monthly_base,unpaid_leave_days,amount_involved
+RA-2026-001,B,合规,无,无,未知,过失性解除,3,15000,5,0
+RA-2026-002,C,部分,不确定,威胁,未知,过失性解除,8,40000,10,0
+RA-2026-003,A,合规,无,无,未知,协商解除,2,12000,0,0
